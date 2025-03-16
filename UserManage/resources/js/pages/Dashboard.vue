@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import PlaceholderPattern from '../components/PlaceholderPattern.vue';
 import { defineProps } from "vue";
 
@@ -18,6 +18,12 @@ const breadcrumbs: BreadcrumbItem[] = [
         created_at: string;
     }
         defineProps<{ users: User[] }>();
+
+        const deleteUser = (id: number) => {
+    if (confirm('Are you sure you want to delete this user?')) {
+        router.delete(`/users/${id}`);
+    }
+};
 </script>
 
 <template>
@@ -54,10 +60,12 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <td class="border border-gray-300 px-4 py-2">{{ user.email }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ new Date(user.created_at).toLocaleString() }}</td>
                     <td class="border border-gray-300 px-4 py-2">
-                        <button class="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600">
+                        <!-- <button class="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600">
                             Edit
-                        </button>
-                        <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                        </button> -->
+                        <button     @click="deleteUser(user.id)" 
+                            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                        >
                             Delete
                         </button>
                     </td>

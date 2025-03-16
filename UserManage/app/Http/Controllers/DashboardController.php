@@ -14,4 +14,12 @@ class DashboardController extends Controller
     
         return Inertia::render('Dashboard', [ 'users' => $users]);
         }
+        public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->back()->with('success', 'User deleted successfully');
+    }
+
 }
